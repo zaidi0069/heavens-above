@@ -1,12 +1,13 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+// Change eslint.config.mjs to eslint.config.js
 
+// eslint.config.js
+const globals = require('globals');
+const pluginJs = require('@eslint/js');
 
 module.exports = {
+  files: ['**/*.js'],
+  languageOptions: { sourceType: 'commonjs' },
+  globals: globals.browser,
+  plugins: ['js'],
   extends: ['plugin:js/recommended'],
-  rules: {
-    // Relax rules here:
-    'no-global-assign': 'off', // Disable the 'no-global-assign' rule
-    'no-unused-vars': 'off', // Disable the 'no-unused-vars' rule
-  },
 };
