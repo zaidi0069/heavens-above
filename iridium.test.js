@@ -1,4 +1,4 @@
-const iridium = require('./iridium');
+const iridium = require('./src/iridium');
 
 describe('Iridium Module', () => {
   test('getTable function is exported', () => {
