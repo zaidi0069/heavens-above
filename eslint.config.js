@@ -1,13 +1,7 @@
-// Change eslint.config.mjs to eslint.config.js
+import globals from "globals";
+import pluginJs from "@eslint/js";
 
-// eslint.config.js
-const globals = require('globals');
-const pluginJs = require('@eslint/js');
-
-module.exports = {
-  files: ['**/*.js'],
-  languageOptions: { sourceType: 'commonjs' },
-  globals: globals.browser,
-  plugins: ['js'],
-  extends: ['plugin:js/recommended'],
-};
+export default [
+  { files: ["**/*.js"], languageOptions: { sourceType: "commonjs", globals: globals.browser } },
+  pluginJs.configs.recommended,
+];
