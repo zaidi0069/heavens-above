@@ -1,4 +1,4 @@
-const satellite = require('./satellite');
+const satellite = require('./src/satellite');
 
 describe('Satellite Module', () => {
   test('getTable function is exported', () => {
