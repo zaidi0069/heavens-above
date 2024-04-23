@@ -1,0 +1,32 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npx eslint src/
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Display Status
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "All checks passed successfully!"
+          else
+            echo "Checks failed. Please review the logs for details."
+            exit 1
+          fi
