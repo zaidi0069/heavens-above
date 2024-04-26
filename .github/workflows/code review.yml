@@ -1,0 +1,51 @@
+name: Code Review Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      # Run ESLint
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      # Run tests
+      - name: Run tests
+        run: npm test
+
+      # Code scanning (CodeQL analysis)
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Analyze code with CodeQL
+        run: codeql analyze --sarif --verbose .
+        continue-on-error: true
+
+      # Enforce required checks before merging
+      - name: Enforce required checks
+        if: github.event_name == 'pull_request'
+        run: |
+          # Check if all required checks have passed
+          if [[ "${{ job.status }}" != "success" ]]; then
+            echo "Required checks failed. Cannot merge pull request."
+            exit 1
+          fi
